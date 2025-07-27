@@ -1,3 +1,4 @@
+import Login from './components/Login';
 import './App.css';
 import './firebase'; // Initialize Firebase
 import { ContinuousCalendar } from './components/ContinuousCalendar';
@@ -16,7 +17,7 @@ function App() {
           <p className="mt-2 text-lg">AI-Powered Academic Calendar</p>
           <p className="mt-1 text-sm opacity-90">🚀 Interactive calendar with assignment tracking and AI study planning</p>
         </header>
-        
+        <Login />
         <main className="bg-white rounded-b-2xl shadow-lg overflow-hidden">
           <div className="h-80vh">
             <ContinuousCalendar onClick={handleDateClick} />
