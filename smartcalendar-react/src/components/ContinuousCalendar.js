@@ -206,6 +206,7 @@ export const ContinuousCalendar = ({ onClick }) => {
     const newAssignment = {
       id: Date.now(),
       type: 'assignment',
+      completed: false, // Track completion status
       ...assignmentData
     };
     setAssignments([...assignments, newAssignment]);
@@ -216,10 +217,26 @@ export const ContinuousCalendar = ({ onClick }) => {
     const newEvent = {
       id: Date.now(),
       type: 'event',
+      completed: false, // Track completion status
       ...eventData
     };
     setEvents([...events, newEvent]);
     setShowEventModal(false);
+  };
+
+  // Toggle completion status for an assignment or event
+  const toggleComplete = (id, type) => {
+    if (type === 'assignment') {
+      // Find the assignment and flip its completed status
+      setAssignments(assignments.map(item => 
+        item.id === id ? { ...item, completed: !item.completed } : item
+      ));
+    } else {
+      // Find the event and flip its completed status
+      setEvents(events.map(item => 
+        item.id === id ? { ...item, completed: !item.completed } : item
+      ));
+    }
   };
 
   const getItemsForDate = (day, month, year) => {
@@ -281,10 +298,23 @@ export const ContinuousCalendar = ({ onClick }) => {
             {getItemsForDate(day, monthIndex, currentYear).map(item => (
               <div 
                 key={item.id} 
-                className={`assignment-item priority-${item.priority}`}
+                className={`assignment-item priority-${item.priority} ${item.completed ? 'completed' : ''}`}
                 title={`${item.type === 'assignment' ? 'Assignment' : 'Event'}: ${item.title}`}
               >
-                <span className="item-title">{item.title}</span>
+                {/* Checkbox to mark item as complete */}
+                <input
+                  type="checkbox"
+                  className="item-checkbox"
+                  checked={item.completed || false}
+                  onChange={(e) => {
+                    e.stopPropagation(); // Prevent date click when checking
+                    toggleComplete(item.id, item.type);
+                  }}
+                  onClick={(e) => e.stopPropagation()}
+                />
+                <span className={`item-title ${item.completed ? 'completed-text' : ''}`}>
+                  {item.title}
+                </span>
               </div>
             ))}
           </div>
