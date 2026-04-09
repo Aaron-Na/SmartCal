@@ -1,4 +1,4 @@
-import { doc, setDoc, getDoc, collection, addDoc, getDocs, updateDoc, deleteDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, collection, addDoc, getDocs, updateDoc } from 'firebase/firestore';
 import { db } from './firebase';
 
 // Create or update user profile when they first log in
